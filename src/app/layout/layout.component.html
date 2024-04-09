@@ -1,0 +1,33 @@
+<p-sidebar [(visible)]="sidebarVisible">
+    <div class="flex gap-2 items-center justify-center">
+        <i class="pi pi-bitcoin text-2xl text-yellow-400 m-0"></i>
+        <h3 class="m-0 select-none">MEG</h3>
+    </div>
+    <div>
+        <ul class="list-none p-0 w-full">
+            <a *ngFor="let route of routes" routerLink="{{route.path}}" (click)="sidebarVisible = false" class="block p-4 rounded w-full hover:bg-slate-200 transition-colors no-underline text-gray-800 cursor-pointer">
+                <li>{{ route.title }}</li>
+            </a>
+        </ul>
+    </div>
+</p-sidebar>
+
+<div id="navbar" class=" w-full flex justify-between h-12">
+    <p-button (click)="sidebarVisible = true" label="" [text]="true" icon="pi pi-bars"></p-button>
+    <p-button (click)="dialogVisible = true" [text]="true" severity="secondary" class="key-group">
+        <p class="">Ayuda (Ctrl + Alt + H)</p>
+    </p-button>
+</div>
+
+<p-dialog [(visible)]="dialogVisible" header="Atajos de teclado" [modal]="true" [style]="{ width: '100%', 'max-width': '600px' }">
+    <div class="flex flex-col gap-2">
+        <div class="flex justify-between">
+            <p>Ctrl + Alt + H</p>
+            <p>Mostrar/Ocultar atajos de teclado</p>
+        </div>
+        <div class="flex justify-between">
+            <p>Ctrl + Alt + L</p>
+            <p>Mostrar/Ocultar barra lateral</p>
+        </div>
+    </div>
+</p-dialog>

@@ -1,0 +1,17 @@
+<div class="w-full">
+    <div class="flex gap-4 w-full justify-center items-center">
+        <div class="shadow-md rounded-md p-4 text-slate-600">
+            <p class="mb-0 text-center">Total del dia</p>
+            <p class="text-2xl font-bold m-0 text-center">USD {{closingStatement.day_total.toFixed(2)}}</p>
+        </div>
+        <div class="shadow-md rounded-md p-4 text-slate-600">
+            <p class="mb-0 text-center">Numero de facturas</p>
+            <p class="text-2xl font-bold m-0 text-center"> {{closingStatement.invoice_quantity}}</p>
+        </div>
+        <div class="shadow-md rounded-md p-4 text-slate-600">
+            <p class="mb-0 text-center">Factura promedio</p>
+            <p class="text-2xl font-bold m-0 text-center"> USD {{closingStatement.average_invoice.toFixed(2)}}</p>
+        </div>
+        <p-button label="Cerrar caja" icon="pi pi-power-off"></p-button>
+    </div>
+</div>
