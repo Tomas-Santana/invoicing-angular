@@ -1,1 +1,36 @@
-<p>payment-client works!</p>
+<div class="wrapper">
+  <h1>Customer</h1>
+  <div class="top">
+    <input type="text" pInputText placeholder="Name..." />
+    <input type="text" pInputText placeholder="Surname..." />
+    <p-button icon="pi pi-search" severity="success" />
+  </div>
+  <div class="mid">
+    <p-button
+      icon="pi pi-angle-down"
+      severity="success"
+      [style]="{ 'margin-right': '2rem' }"
+    />
+    <input
+      type="text"
+      pInputText
+      placeholder="ID..."
+      [style]="{ width: '24rem', 'margin-right': '2rem' }"
+    />
+    <p-button icon="pi pi-search" severity="success" />
+  </div>
+  <div class="bot">
+    <input
+      type="text"
+      pInputText
+      placeholder="Direccion..."
+      [style]="{ width: '34rem' }"
+    />
+  </div>
+
+  <p-button
+    label="Crear/Actualizar Cliente"
+    [style]="{ width: '100%' }"
+    class="btn"
+  />
+</div>

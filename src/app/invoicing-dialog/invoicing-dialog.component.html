@@ -2,7 +2,8 @@
 <p-dialog
   header="Invoicing Details"
   [(visible)]="visible"
-  [style]="{ width: '50rw', height: '300px' }"
+  [modal]="true"
+  [style]="{ width: '50rw', height: '20rem' }"
 >
   <div class="input-wrapper">
     <p>Code: 123</p>
@@ -13,6 +14,7 @@
 
   <div class="wrapper">
     <p-table
+      header="Products"
       [value]="products"
       [tableStyle]="{ 'max-width': '100%', 'min-height': '100px' }"
     >
@@ -34,6 +36,7 @@
       </ng-template>
     </p-table>
     <p-table
+      header="Payments"
       [value]="payments"
       [tableStyle]="{ 'max-width': '100%', 'min-height': '100px' }"
     >
