@@ -1,17 +1,32 @@
-import { Component,  } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ClosingStatement } from '../Interfaces.interface';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { TabViewModule } from 'primeng/tabview'
 import { NgIf } from '@angular/common';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MiniInvoiceTableComponent } from '../mini-invoice-table/mini-invoice-table.component';
+import { MiniProductTableComponent } from '../mini-product-table/mini-product-table.component';
+import { BankChartComponent } from '../bank-chart/bank-chart.component';
+import { PaymentMethodChartComponent } from '../payment-method-chart/payment-method-chart.component';
+import { DashboardApiService } from '../dashboard-api.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CardModule, ButtonModule],
+  imports: [CardModule, ButtonModule, NgIf, ToastModule, ConfirmDialogModule, MiniInvoiceTableComponent, BankChartComponent, TabViewModule, PaymentMethodChartComponent, MiniProductTableComponent],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+  constructor(
+    private messageService: MessageService, 
+    private confirmationService: ConfirmationService,
+    private dashboardApiService: DashboardApiService
+  ) { }
   title = "Dashboard"
   date = new Date();
   closingStatement: ClosingStatement = {
@@ -22,39 +37,65 @@ export class DashboardComponent {
     invoices: [],
     banks: [],
     methods: [],
-    products: {product: '', sold: 0, total: 0}
+    products: [],
+    closing_time: ''
   };
 
+  @HostListener('window:keydown.control.alt.c', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    this.confirmClose();
+  }
+
   ngOnInit() {
-    const body = {
-      // format date as YYYY-MM-DD
-      date: this.date.toISOString().split('T')[0]
-    }
-    this.getClosingStatement().then(data => {
-      this.closingStatement = data;
+    this.dashboardApiService.getClosingStatement(this.date.toISOString().split('T')[0]).subscribe(data => {
+      this.closingStatement = data.result;
     });
   }
 
-  async getClosingStatement(): Promise<ClosingStatement> {
-    const body = {
-      // format date as YYYY-MM-DD
-      date: this.date.toISOString().split('T')[0]
-    }
+  reduceDate() {
+    this.date.setDate(this.date.getDate() - 1);
+    this.dashboardApiService.getClosingStatement(this.date.toISOString().split('T')[0]).subscribe(data => {
+      this.closingStatement = data.result;
+    });
+  }
 
-    const response = await fetch('http://127.0.0.1:5000/getClosingStatement',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      }
-    )
-    type Response = {
-      result: ClosingStatement
+  increaseDate() {
+    if (this.date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0]) {
+      this.messageService.add({severity:'warn', summary:'Warning', detail:'You cannot view future closing statements', life: 3000});
+      return;
     }
-    const data: Response = await response.json();
-    
-    return data.result;
+    this.date.setDate(this.date.getDate() + 1);
+    this.dashboardApiService.getClosingStatement(this.date.toISOString().split('T')[0]).subscribe(data => {
+      this.closingStatement = data.result;
+    });    
+  }
+  confirmClose() {
+    if (this.closingStatement.closing_time !== '') return
+    this.confirmationService.confirm({
+      message: 'You are about to close for the day. This action cannot be undone. Do you want to proceed?',
+      header: 'Are you sure?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass:"p-button-danger p-button-text",
+      rejectButtonStyleClass:"p-button-text p-button-text",
+      accept: () => {
+          this.closeDay();
+      },
+      reject: () => {
+          this.messageService.add({severity:'info', summary:'Action cancelled', detail:'Day was not closed', life: 3000});
+      }
+    });
+  }
+
+  closeDay() {
+    this.dashboardApiService.closeRegister().subscribe(data => {
+      if (data.result.insert) {
+        this.messageService.add({severity:'success', summary:'Success', detail:data.result.message, life: 3000});
+        this.closingStatement.closing_time = new Date().toISOString().split('T')[1];
+      }
+      else {
+        this.messageService.add({severity:'error', summary:'Error', detail:data.result.message, life: 3000});
+      }
+    });
+
   }
 }
