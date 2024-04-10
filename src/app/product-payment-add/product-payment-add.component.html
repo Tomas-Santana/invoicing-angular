@@ -1,0 +1,26 @@
+<section>
+    <!-- <form [formGroup]=""> -->
+        <h2>Add product</h2>
+        <div class="searcher">
+            <input type="text" pInputText formControlName="name"/>
+            <p-button icon="pi pi-search" severity="success"/>
+        </div>
+        <div class="searcher">
+            <input type="text" pInputText formControlName="code"/>
+            <p-button icon="pi pi-search" severity="success"/>
+        </div>
+        <div class="adder">
+            <p-button icon="pi pi-minus" severity="danger"/>
+            <input type="text" pInputText formControlName="quantity" [style]="{'width': '5rem'}"/>
+            <p-button icon="pi pi-plus"/>
+        </div>
+        <div class="pricing">
+            <p>Precio: </p>
+            <h3>Total: </h3>
+        </div>
+        <p-button label="Add" severity="success" [style]="{'width': '100%'}" />
+        <div class="imgWrapper">
+            <img src="" alt="">
+        </div>
+    <!-- </form> -->
+</section>

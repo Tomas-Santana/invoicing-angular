@@ -1,0 +1,15 @@
+<section>
+  <p-calendar class="max-w-full" [inline]="true" [showWeek]="false"></p-calendar>
+
+  <div class="search">
+    <input type="text" pInputText placeholder="Code..." id="code"/>
+    <p-button icon="pi pi-search" severity="success"/>
+  </div>
+
+  <div class="search">
+    <input type="text" pInputText placeholder="Name..." id="name"/>
+    <p-button icon="pi pi-search" severity="success"/>
+  </div>
+
+  <p-button label="Search" severity="success" [style]="{'width': '10rem'}" />
+</section>

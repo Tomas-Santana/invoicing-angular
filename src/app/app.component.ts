@@ -1,6 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { LayoutComponent } from './layout/layout.component';
-import {RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
