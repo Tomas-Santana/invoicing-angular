@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TableModule } from 'primeng/table'
 import { PaymentClientComponent } from '../payment-client/payment-client.component';
 import { PaymentMethodComponent } from '../payment-method/payment-method.component';
@@ -18,6 +18,7 @@ type Payment = {
   styleUrl: './payment-view.component.scss'
 })
 export class PaymentViewComponent {
+  @Input() totalInvoice: number = 0;
   payments: Payment[] = [
     {"name":"ZELLE","amount":11,"bank":"BOFA"},
     {"name":"TARJETA DE CREDITO","amount":50,"bank":"BANESCO"},
@@ -27,4 +28,8 @@ export class PaymentViewComponent {
     {"name":"TARJETA DE CREDITO","amount":12.4,"bank":"BANESCO"},
     {"name":"ZELLE","amount":22,"bank":"CHASE"}
   ];
+  getTotals() {
+    const totalPayments = this.payments.reduce((accumulator, actual) => accumulator+actual.amount, 0);
+    return this.totalInvoice - totalPayments;
+  }
 }
