@@ -1,44 +1,64 @@
 <div class="w-full">
     <div class="w-full flex justify-center items-center gap-4">
-        <p-button icon="pi-angle-left pi" [text]="true" [rounded]="true" (onClick)="reduceDate()"></p-button>
-        <p class="text-md">{{ date.toISOString().split('T')[0] }}</p>
-        <p-button icon="pi-angle-right pi" [text]="true" [rounded]="true" (onClick)="increaseDate()"></p-button>
+        <div class="flex gap-4 justify-center items-center">
+            <p-button icon="pi-angle-left pi" severity="help" [rounded]="true" (onClick)="reduceDate()" class="p-button-white" ></p-button>
+            <p class="text-lg font-bold text-white w-32 text-center">{{ date.toISOString().split('T')[0] }}</p>
+            <p-button icon="pi-angle-right pi" [outlined]="true" class="p-button-white" [rounded]="true" (onClick)="increaseDate()"></p-button>
+        </div>
+        <div class="flex flex-col gap-1 justify-center items-center">
+            <p-button class="p-button-white" label="Cerrar caja" icon="pi pi-power-off" (onClick)="confirmClose()"
+            [disabled]="closingStatement.closing_time !== ''">
+            </p-button>
+            <p class="text-xs font-bold text-white m-0 absolute top-28" *ngIf="closingStatement.closing_time !== ''">
+                Closed at:
+                {{closingStatement.closing_time.split(" ")[1]}}
+            </p>
+        </div>
     </div>
-    <div class="flex flex-col gap-1 justify-center items-center pb-4">
-        <p-button label="Cerrar caja" icon="pi pi-power-off" (onClick)="confirmClose()"
-            [disabled]="closingStatement.closing_time !== ''"></p-button>
-        <p class="text-xs m-0" *ngIf="closingStatement.closing_time !== ''">
-            Closed at: 
-            {{closingStatement.closing_time.split(" ")[1]}}
-        </p>
-    </div>
-    <div class="flex flex-row flex-wrap gap-4 w-full justify-center items-center">
-        <div class="shadow-md rounded-md border p-4 text-slate-600 w-56">
-            <p class="mb-0 text-center">Total del dia</p>
+
+    <div class="flex flex-row flex-wrap gap-4 w-full justify-center items-center mt-5">
+        <div class="shadow-md rounded-md bg-white  border p-4 text-slate-600 w-56">
+            <p class="m-0 text-center">Total del dia</p>
             <p class="text-2xl font-bold m-0 text-center">USD {{closingStatement.day_total.toFixed(2)}}</p>
         </div>
-        <div class="shadow-md rounded-md border p-4 text-slate-600 w-56">
-            <p class="mb-0 text-center">Numero de facturas</p>
+        <div class="shadow-md rounded-md border p-4 bg-purple-400 border-white text-white w-56">
+            <p class="m-0 text-center">Numero de facturas</p>
             <p class="text-2xl font-bold m-0 text-center"> {{closingStatement.invoice_quantity}}</p>
         </div>
-        <div class="shadow-md rounded-md border p-4 text-slate-600 w-56">
-            <p class="mb-0 text-center">Factura promedio</p>
+        <div class="shadow-md rounded-md bg-white border p-4 text-slate-600 w-56">
+            <p class="m-0 text-center">Factura promedio</p>
             <p class="text-2xl font-bold m-0 text-center"> USD
                 {{closingStatement.average_invoice ? closingStatement.average_invoice.toFixed(2) : 0}}
             </p>
         </div>
     </div>
-    <div class="w-full mt-4 flex flex-col md:flex-row gap-4" id="second-row">
-        <div class="max-w-lg shadow-md rounded-md border p-4">
+    <div class=" w-min lg:max-w-6xl m-auto items-center lg:items-start justify-center mt-5 flex lg:flex-row gap-4 bg-white rounded-md shadow-md" id="second-row">
+        <div class=" h-full p-4 bg-white rounded-md">
             <h3 class="m-0 mb-2 text-slate-700">Today's Invoices</h3>
             <app-mini-invoice-table [invoices]="closingStatement.invoices"></app-mini-invoice-table>
         </div>
-        <div class="max-w-lg shadow-md rounded-md p-4">
-            <h3 class="m-0 mb-2 text-slate-700">Payments by bank</h3>
-            <app-bank-chart [data]="closingStatement.banks"></app-bank-chart>
+        <div class=" p-4 w-full relative bg-white rounded-md">
+            <h3 class="m-0 mb-2 text-slate-700">Payments by</h3>
+            <div class="mini-table">
+                <p-tabView >
+                    <p-tabPanel header="Bank" class="w-full">
+                        <app-bank-chart [data]="closingStatement.banks"></app-bank-chart>
+                    </p-tabPanel>
+                    <p-tabPanel header="Payment Method" class="w-full">
+                        <app-payment-method-chart [data]="closingStatement.methods"></app-payment-method-chart>
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+        </div>
+        <div class="w-full p-4 bg-white rounded-md">
+            <h3 class="m-0 mb-2 text-slate-700">Today's sold products</h3>
+            <app-mini-product-table [products]="closingStatement.products"></app-mini-product-table>
         </div>
     </div>
 </div>
 
 <p-toast position="bottom-right"></p-toast>
 <p-confirmDialog></p-confirmDialog>
+<div id="background" aria-hidden="true" class="bg-purple-400 fixed -z-50 inset-0">
+
+</div>

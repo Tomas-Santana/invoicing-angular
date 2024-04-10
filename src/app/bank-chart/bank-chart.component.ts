@@ -21,7 +21,7 @@ export class BankChartComponent {
       labels: this.data.map((bank) => bank.bank),
       datasets: [
         {
-          label: 'Totals (USD)',
+          label: 'Total (USD)',
           data: this.data.map((bank) => bank.total),
           borderWidth: 1,
       }],
@@ -51,7 +51,7 @@ export class BankChartComponent {
       labels: this.data.map((bank) => bank.bank),
       datasets: [
         {
-          label: 'Totals (USD)',
+          label: 'Total (USD)',
           data: this.data.map((bank) => bank.total),
           borderWidth: 1,
       }],

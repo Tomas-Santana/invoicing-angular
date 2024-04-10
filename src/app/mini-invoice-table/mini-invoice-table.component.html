@@ -1,4 +1,6 @@
-    <p-table [value]="invoices" [tableStyle]="{ 'max-width': '512px', 'width': '450px' }" 
+    
+<div class="mini-table">
+    <p-table [value]="invoices" [tableStyle]="{ 'max-width': '400px', 'width': '400px'}" 
     [scrollable]="true" 
     scrollHeight="400px"
     styleClass='p-datatable-sm'
@@ -19,13 +21,16 @@
                 <td>{{ invoice.pid_prefix }}-{{ invoice.pid }}</td>
                 <td>{{ invoice.name }}</td>
                 <td>{{ invoice.surname }}</td>
-                <td>{{ invoice.total }}</td>
-                <td class="grid place-items-center">
-                    <p-checkbox [binary]="invoice.void" disabled="true"></p-checkbox>
+                <td>USD {{ invoice.total }}</td>
+                <td>
+                    <span *ngIf="invoice.void" class="text-red-500">Void</span>
+                    <span *ngIf="!invoice.void" class="text-green-500">Active</span>
                 </td>
+
             </tr>
         </ng-template>
     </p-table>
+</div>
 
 <!-- 
     date: string;

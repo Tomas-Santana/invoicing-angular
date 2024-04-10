@@ -10,7 +10,7 @@
 }
 
 
-@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/themes/lara-light-indigo/theme.css";
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
@@ -28,4 +28,26 @@
     font-size: 0.8rem;
     font-weight: 500;
     color: #656565;
+}
+
+.border-white {
+    border-color: white;
+    border: 1px solid;
+}
+
+
+
+.p-button-white {
+    .p-button {
+        background: white;
+        color: rgb(71 85 105);
+        border: none
+    }
+}
+
+.mini-table {
+    height: 300px;
+    border: 1px solid #b1b1b1;
+    display: flex;
+    justify-content: center;
 }

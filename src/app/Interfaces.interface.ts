@@ -6,15 +6,8 @@ export interface ClosingStatement {
     average_invoice: number;
     invoices: InvoiceEntry[];
     banks: BankEntry[]
-    methods: {
-        method: string;
-        total: number;
-    }[]
-    products: {
-        product: string;
-        sold: number;
-        total: number;
-    }
+    methods: PaymentMethodEntry[];
+    products: MiniProductEntry[];
 }
 
 export interface InvoiceEntry {
@@ -30,5 +23,16 @@ export interface InvoiceEntry {
 
 export interface BankEntry {
     bank: string;
+    total: number;
+}
+
+export interface PaymentMethodEntry {
+    method: string;
+    total: number;
+}
+
+export interface MiniProductEntry {
+    name: string;
+    sold: number;
     total: number;
 }

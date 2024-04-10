@@ -2,23 +2,31 @@ import { Component, HostListener } from '@angular/core';
 import { ClosingStatement } from '../Interfaces.interface';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { TabViewModule } from 'primeng/tabview'
 import { NgIf } from '@angular/common';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MiniInvoiceTableComponent } from '../mini-invoice-table/mini-invoice-table.component';
+import { MiniProductTableComponent } from '../mini-product-table/mini-product-table.component';
 import { BankChartComponent } from '../bank-chart/bank-chart.component';
+import { PaymentMethodChartComponent } from '../payment-method-chart/payment-method-chart.component';
+import { DashboardApiService } from '../dashboard-api.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CardModule, ButtonModule, NgIf, ToastModule, ConfirmDialogModule, MiniInvoiceTableComponent, BankChartComponent],
+  imports: [CardModule, ButtonModule, NgIf, ToastModule, ConfirmDialogModule, MiniInvoiceTableComponent, BankChartComponent, TabViewModule, PaymentMethodChartComponent, MiniProductTableComponent],
   providers: [MessageService, ConfirmationService],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(
+    private messageService: MessageService, 
+    private confirmationService: ConfirmationService,
+    private dashboardApiService: DashboardApiService
+  ) { }
   title = "Dashboard"
   date = new Date();
   closingStatement: ClosingStatement = {
@@ -29,7 +37,7 @@ export class DashboardComponent {
     invoices: [],
     banks: [],
     methods: [],
-    products: {product: '', sold: 0, total: 0},
+    products: [],
     closing_time: ''
   };
 
@@ -39,42 +47,15 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
-    const body = {
-      date: this.date.toISOString().split('T')[0]
-    }
-    this.getClosingStatement().then(data => {
-      this.closingStatement = data;
-      console.log(this.closingStatement); 
+    this.dashboardApiService.getClosingStatement(this.date.toISOString().split('T')[0]).subscribe(data => {
+      this.closingStatement = data.result;
     });
-  }
-  
-  async getClosingStatement(): Promise<ClosingStatement> {
-    const body = {
-      // format date as YYYY-MM-DD
-      date: this.date.toISOString().split('T')[0]
-    }
-
-    const response = await fetch('http://127.0.0.1:5000/getClosingStatement',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      }
-    )
-    type Response = {
-      result: ClosingStatement
-    }
-    const data: Response = await response.json();
-    
-    return data.result;
   }
 
   reduceDate() {
     this.date.setDate(this.date.getDate() - 1);
-    this.getClosingStatement().then(data => {
-      this.closingStatement = data;
+    this.dashboardApiService.getClosingStatement(this.date.toISOString().split('T')[0]).subscribe(data => {
+      this.closingStatement = data.result;
     });
   }
 
@@ -84,9 +65,9 @@ export class DashboardComponent {
       return;
     }
     this.date.setDate(this.date.getDate() + 1);
-    this.getClosingStatement().then(data => {
-      this.closingStatement = data;
-    });
+    this.dashboardApiService.getClosingStatement(this.date.toISOString().split('T')[0]).subscribe(data => {
+      this.closingStatement = data.result;
+    });    
   }
   confirmClose() {
     if (this.closingStatement.closing_time !== '') return
@@ -105,25 +86,16 @@ export class DashboardComponent {
     });
   }
 
-  async closeDay() {
-    const response = await fetch('http://127.0.0.1:5000/close', {
-      method: 'POST',
-    })
-    type CloseResponse = {
-      result: {
-        insert: boolean, 
-        message: string
+  closeDay() {
+    this.dashboardApiService.closeRegister().subscribe(data => {
+      if (data.result.insert) {
+        this.messageService.add({severity:'success', summary:'Success', detail:data.result.message, life: 3000});
+        this.closingStatement.closing_time = new Date().toISOString().split('T')[1];
       }
-    }
-    const data: CloseResponse = await response.json();
-    if (data.result.insert) {
-      this.messageService.add({severity:'success', summary:'Day Closed', detail:'The day has been closed successfully', life: 3000});
+      else {
+        this.messageService.add({severity:'error', summary:'Error', detail:data.result.message, life: 3000});
+      }
+    });
 
-      this.getClosingStatement().then(data => {
-        this.closingStatement = data;
-      });
-      return;
-    }
-    this.messageService.add({severity:'error', summary:'Error', detail:data.result.message, life: 3000});
   }
 }
