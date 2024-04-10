@@ -1,13 +1,11 @@
 export interface ClosingStatement {
     date: string;
+    closing_time: string;
     day_total: number;
     invoice_quantity: number;
     average_invoice: number;
     invoices: InvoiceEntry[];
-    banks: {
-        bank: string;
-        total: number;
-    }[]
+    banks: BankEntry[]
     methods: {
         method: string;
         total: number;
@@ -28,4 +26,9 @@ export interface InvoiceEntry {
     surname: string;
     total: number;
     void: boolean;
+}
+
+export interface BankEntry {
+    bank: string;
+    total: number;
 }
