@@ -1,0 +1,23 @@
+<section>
+  <div>
+    <p-table [value]="invoices" [tableStyle]="{'max-width': '45rem', 'min-height' : '12rem'}">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Invoice Number</th>
+          <th>Client</th>
+          <th>Date</th>
+          <th>Details</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-invoice>
+        <tr>
+          <td>{{ invoice.id }}</td>
+          <td>{{ invoice.client }}</td>
+          <td>{{ invoice.date }}</td>
+          <td><p-button label="See" severity="success"/></td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+</section>

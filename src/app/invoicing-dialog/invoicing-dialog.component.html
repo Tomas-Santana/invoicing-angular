@@ -1,0 +1,59 @@
+<p-button label="Show" (click)="showDialog()" />
+<p-dialog
+  header="Invoicing Details"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '50rw', height: '20rem' }"
+>
+  <div class="input-wrapper">
+    <p>Code: 123</p>
+    <p>Nombre: Pepe</p>
+    <p>Cedula: xx.xxx.xxx</p>
+    <p>Direccion: mi casa</p>
+  </div>
+
+  <div class="wrapper">
+    <p-table
+      header="Products"
+      [value]="products"
+      [tableStyle]="{ 'max-width': '100%', 'min-height': '100px' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>{{ product.code }}</td>
+          <td>{{ product.name }}</td>
+          <td>${{ product.price }}</td>
+          <td>{{ product.quantity }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-table
+      header="Payments"
+      [value]="payments"
+      [tableStyle]="{ 'max-width': '100%', 'min-height': '100px' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Amount</th>
+          <th>Bank</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-payment>
+        <tr>
+          <td>{{ payment.name }}</td>
+          <td>${{ payment.amount }}</td>
+          <td>{{ payment.bank }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
