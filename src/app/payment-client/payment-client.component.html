@@ -3,7 +3,10 @@
   <div class="top">
     <input type="text" pInputText placeholder="Name..." />
     <input type="text" pInputText placeholder="Surname..." />
-    <p-button icon="pi pi-search" severity="success" />
+    <p-button icon="pi pi-search" severity="success" (click)="showDialog()" />
+    <div *ngIf="visible">
+      <search-modal></search-modal>
+    </div>
   </div>
   <div class="mid">
     <p-button
@@ -17,7 +20,7 @@
       placeholder="ID..."
       [style]="{ width: '24rem', 'margin-right': '2rem' }"
     />
-    <p-button icon="pi pi-search" severity="success" />
+    <p-button icon="pi pi-search" severity="success"></p-button>
   </div>
   <div class="bot">
     <input
