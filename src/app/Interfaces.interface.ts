@@ -36,3 +36,34 @@ export interface MiniProductEntry {
     sold: number;
     total: number;
 }
+
+export interface FullInvoice {
+    client: Client,
+    date: string,
+    invoice_id: number,
+    payments: PaymentEntry[],
+    products: ProductEntry[],
+    void: boolean
+}
+
+export interface PaymentEntry {
+    amount: number;
+    bank: string;
+    method: string;
+}
+
+export interface ProductEntry {
+    code: string;
+    name: string;
+    photourl: string;
+    price: number;
+    quantity: number;
+}
+
+export interface Client {
+    dir: string;
+    name: string;
+    pid: string;
+    pid_prefix: string;
+    surname: string;
+}

@@ -32,10 +32,10 @@
             </p>
         </div>
     </div>
-    <div class=" w-min lg:max-w-6xl m-auto items-center lg:items-start justify-center mt-5 flex lg:flex-row gap-4 bg-white rounded-md shadow-md" id="second-row">
+    <div class=" w-min lg:max-w-6xl m-auto items-center lg:items-start justify-center mt-5 flex flex-col lg:flex-row gap-4 bg-white rounded-md shadow-md" id="second-row">
         <div class=" h-full p-4 bg-white rounded-md">
             <h3 class="m-0 mb-2 text-slate-700">Today's Invoices</h3>
-            <app-mini-invoice-table [invoices]="closingStatement.invoices"></app-mini-invoice-table>
+            <app-mini-invoice-table [width]="400" [invoices]="closingStatement.invoices"></app-mini-invoice-table>
         </div>
         <div class=" p-4 w-full relative bg-white rounded-md">
             <h3 class="m-0 mb-2 text-slate-700">Payments by</h3>
