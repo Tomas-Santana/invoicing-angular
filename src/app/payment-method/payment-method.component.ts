@@ -11,6 +11,24 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './payment-method.component.scss',
 })
 export class PaymentMethodComponent {
-  payments: string[] = ['Cash', 'Credit', 'Zelle', 'Transfer'];
-  coins: string[] = ['BS', 'USD'];
+  selectedPayment = 'Cash'
+  payments: Object = {
+    'Cash': [],
+    'Credit': ['Venezuela', 'BNC', 'Banesco', 'Mercantil', 'Banplus'],
+    'Debit': ['Venezuela', 'BNC', 'Banesco', 'Mercantil', 'Banplus'], 
+    'Transfer': ['Venezuela', 'BNC', 'Banesco', 'Mercantil', 'Banplus'], 
+    'PagoMovil': ['Venezuela', 'BNC', 'Banesco', 'Mercantil', 'Banplus'], 
+    'Zelle': ['BOFA', 'CHASE'],
+  };
+  coins: Object = {
+
+  };
+
+  getAllPayments = () => Object.keys(this.payments);
+  getPayments = () => {
+    return Object.entries(this.payments)
+      .filter((entry) => entry[0] == this.selectedPayment)
+      [0][1];
+  }
+  getCoins = () => Object.keys(this.coins);
 }

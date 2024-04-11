@@ -1,5 +1,33 @@
-<invoicing-search />
-<app-invoicing-view />
-<invoicing-dialog />
+<div class="w-full h-full absolute -z-10 inset-0 flex flex-col justify-center items-center gap-4">
+    <h3 class="m-0 text-white text-3xl">Search Invoices</h3>
+    <div class="flex gap-2">
+        <p-dropdown 
+        [options]="fields" 
+        optionLabel="displayName" 
+        [showClear]="true" 
+        placeholder="Field"
+        
+        [style]="{'width':'170px'}"
+        [(ngModel)]="selectedField"
+        (onChange)="value=''"
+        ></p-dropdown>
+        <input *ngIf="!selectedField" disabled pInputText placeholder="Please select a field" 
+            [(ngModel)]="value" 
+        > 
+        <input *ngIf="selectedField?.name=='name'" type="text" pInputText placeholder="Search by Client name"
+            [(ngModel)]="value"
+        >
+        <input *ngIf="selectedField?.name=='pid' || selectedField?.name=='invoice_id'" type="number" pInputText [placeholder]="'Search by ' + selectedField?.displayName"
+            [(ngModel)]="value"
+        >
+        <p-calendar *ngIf="selectedField?.name=='date'" dateFormat="yy-mm-dd" placeholder="Search by date" [(ngModel)]="value" ></p-calendar>
+        <p-button (onClick)="search()" icon="pi pi-search" class="p-button-white"></p-button>
+    </div>
+    <div class="h-[400px] bg-white p-4 rounded-md">
+        <app-search-invoice-table
+            [invoices]="invoices"
+        ></app-search-invoice-table>
+    </div>
+</div>
+<div class="fixed inset-0 bg-purple-400 -z-50"></div>
 
-<p>search works!</p>

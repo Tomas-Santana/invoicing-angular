@@ -15,4 +15,5 @@ import { NgIf } from '@angular/common';
 })
 export class MiniInvoiceTableComponent {
   @Input() invoices: InvoiceEntry[] = [];
+  @Input() width: number = 400;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { TableModule } from 'primeng/table'
 import { ProductPaymentAddComponent } from '../product-payment-add/product-payment-add.component';
 
@@ -19,6 +19,7 @@ type Product = {
 })
 export class ProductViewComponent {
   taxAmount = 0.1;
+  @Output() totalInvoice = new EventEmitter<number>();
   products: Product[] =  [{
       "code":"12345",
       "name":'TENEDOR',

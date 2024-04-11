@@ -2,17 +2,24 @@
     <!-- <form [formGroup]=""> -->
         <h2>Add product</h2>
         <div class="searcher">
-            <input type="text" pInputText formControlName="name"/>
-            <p-button icon="pi pi-search" severity="success"/>
+            <input type="text" pInputText formControlName="name" placeholder="Name"/>
+            <p-button icon="pi pi-search" severity="success" (click)="forName.toggle($event)"/>
+            <p-overlayPanel #forName>
+                <search-modal/>
+            </p-overlayPanel>
         </div>
         <div class="searcher">
-            <input type="text" pInputText formControlName="code"/>
-            <p-button icon="pi pi-search" severity="success"/>
+            <input type="text" pInputText formControlName="code" placeholder="Code"/>
+            <p-button icon="pi pi-search" severity="success" (click)="forCode.toggle($event)"/>
+            <p-overlayPanel #forCode>
+                <search-modal/>
+            </p-overlayPanel>
         </div>
         <div class="adder">
-            <p-button icon="pi pi-minus" severity="danger"/>
-            <input type="text" pInputText formControlName="quantity" [style]="{'width': '5rem'}"/>
-            <p-button icon="pi pi-plus"/>
+            <p-button icon="pi pi-minus" severity="danger" (click)='setQuantity(-1)' />
+            <input type="text" pInputText [style]="{'width': '5rem'}" [value]="currentQuantity" [disabled]="true">
+            
+            <p-button icon="pi pi-plus" (click)='setQuantity(1)'/>
         </div>
         <div class="pricing">
             <p>Precio: </p>
