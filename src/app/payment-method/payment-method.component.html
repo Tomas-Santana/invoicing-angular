@@ -1,14 +1,14 @@
 <div class="wrapper">
   <h1>Payment</h1>
   <p-dropdown
-    [options]="payments"
+    [options]="getAllPayments()"
     [showClear]="true"
     placeholder="Cash"
     [style]="{ width: '30rem' }"
   />
   <div class="ban">
     <p-dropdown
-      [options]="payments"
+      [options]="getPayments()"
       [showClear]="true"
       placeholder="..."
       [style]="{ width: '30rem' }"
@@ -16,7 +16,7 @@
   </div>
   <div class="mixed">
     <p-dropdown
-      [options]="coins"
+      [options]="getCoins()"
       [showClear]="true"
       placeholder="Bs"
       [style]="{ 'margin-right': '50px' }"
