@@ -2,14 +2,14 @@
     <!-- <form [formGroup]=""> -->
         <h2>Add product</h2>
         <div class="searcher">
-            <input type="text" pInputText formControlName="name"/>
+            <input type="text" pInputText formControlName="name" placeholder="Name"/>
             <p-button icon="pi pi-search" severity="success" (click)="forName.toggle($event)"/>
             <p-overlayPanel #forName>
                 <search-modal/>
             </p-overlayPanel>
         </div>
         <div class="searcher">
-            <input type="text" pInputText formControlName="code"/>
+            <input type="text" pInputText formControlName="code" placeholder="Code"/>
             <p-button icon="pi pi-search" severity="success" (click)="forCode.toggle($event)"/>
             <p-overlayPanel #forCode>
                 <search-modal/>

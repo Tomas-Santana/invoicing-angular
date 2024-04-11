@@ -21,8 +21,7 @@ export class PaymentMethodComponent {
     'Zelle': ['BOFA', 'CHASE'],
   };
   coins: Object = {
-    'BS': ['Cash', 'Credit', 'Debit', 'Transfer', 'PagoMovil'],
-    'USD': ['Cash', 'Credit', 'Zelle']
+
   };
 
   getAllPayments = () => Object.keys(this.payments);
